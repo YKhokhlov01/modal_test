@@ -1,26 +1,50 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <button id="show-modal" @click="isActive1 = !isActive1">Показать модальное окно</button>
+  <!--Для плавности-->
+  <transition name="modal">
+    <!--Модальный компонент-->
+    <ModalWindow v-if="isActive1" @close="isActive1 = !isActive1">
+      <template v-slot:footer>
+        <h3>{{ text2 }}</h3>
+      </template>
+    </ModalWindow>
+  </transition>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import ModalWindow from './components/Modal.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ModalWindow
+  },
+  data() {
+    return {
+      isActive1: false,
+      text1: 'Показать модальное окно',
+      text2: 'Выполнение тестового задания по модальному окну на vue3'
+    }
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
+}
+
+/* Код для плавности окна */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.8s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
 }
 </style>
